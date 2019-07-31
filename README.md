@@ -1,14 +1,14 @@
 # docker_network
 
-bridge：默認網絡驅動程序。如果未指定驅動程序，則這是您要創建的網絡類型。當您的應用程序在需要通信的獨立容器中運行時，通常會使用橋接網絡。
+none：對於此容器，禁用所有網絡。通常與自定義網絡驅動程序一起使用。none不適用於群組服務。
 
 host：對於獨立容器，刪除容器和Docker主機之間的網絡隔離，並直接使用主機的網絡。host 僅適用於Docker 17.06及更高版本的swarm服務。
+
+bridge：默認網絡驅動程序。如果未指定驅動程序，則這是您要創建的網絡類型。當您的應用程序在需要通信的獨立容器中運行時，通常會使用橋接網絡。
 
 overlay：覆蓋網絡將多個Docker守護程序連接在一起，並使群集服務能夠相互通信。您還可以使用覆蓋網絡來促進群集服務和獨立容器之間的通信，或者在不同Docker守護程序上的兩個獨立容器之間進行通信。此策略消除了在這些容器之間執行OS級別路由的需要。
 
 macvlan：Macvlan網絡允許您為容器分配MAC地址，使其顯示為網絡上的物理設備。Docker守護程序通過其MAC地址將流量路由到容器。macvlan 在處理期望直接連接到物理網絡的傳統應用程序時，使用驅動程序有時是最佳選擇，而不是通過Docker主機的網絡堆棧進行路由。
-
-none：對於此容器，禁用所有網絡。通常與自定義網絡驅動程序一起使用。none不適用於群組服務。
 
 網絡插件：您可以使用Docker安裝和使用第三方網絡插件。這些插件可從 Docker Hub 或第三方供應商處獲得。
 
@@ -81,19 +81,42 @@ ifconfig
 
 ![](bridge-network)
 
-### 查看當前網路狀態
-```
-查看
-docker network ls
-刪除
-docker network create my-net
-新增
-docker network rm my-net
-```
-![](container-network)
+## 測試overlay
 
-預設的網路有三種狀態能使用
-預設狀態是 --net=bridge 
+Host1 實體主機裡面有 Container1，然後 Host2 實體主機裡面有 Container2，可以透過 Docker Overlay 的 Network 的模式
+
+將 Container1 和 Container2 連接起來做溝通。
+
+另外 Consol 是一個存放連線資訊的資料庫，在使用 overlay 時必需要在 Docker 設定，
+
+這樣才能存放 overlay 網路模式的連線資訊。
+
+## 卡關 ~~~
+
+```
+vi /etc/docker/daemon.json
+```
+
+設定
+
+```
+{
+  "live-restore": true,
+  "group": "dockerroot",
+  "hosts": [
+     "unix:///var/run/docker.sock",
+     "tcp://10.1.0.221:2375"
+  ],
+  "cluster-store": "consul://10.1.0.221:8500",
+  "cluster-advertise": "enp8s0:2375"
+}
+```
+docker 無法重啟
+
+```
+systemctl restart docker
+```
+## docker Swarm & docker k8s
 
 
 參考網址 https://ithelp.ithome.com.tw/articles/10193457
