@@ -103,7 +103,7 @@ Host1 實體主機裡面有 Container1，然後 Host2 實體主機裡面有 Cont
 
 這樣才能存放 overlay 網路模式的連線資訊。
 
-## 卡關 ~~~
+## 卡關 
 
 ```
 vi /etc/docker/daemon.json
@@ -132,3 +132,4 @@ systemctl restart docker
 
 
 參考網址 https://ithelp.ithome.com.tw/articles/10193457
+參考網址 https://www.youtube.com/watch?v=YTJS8LmjFrA
