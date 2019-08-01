@@ -128,7 +128,7 @@ docker 無法重啟
 ```
 systemctl restart docker
 ```
-## docker Swarm & docker k8s
+## docker Swarm & docker Kubernetes
 
 
 參考網址 https://ithelp.ithome.com.tw/articles/10193457
