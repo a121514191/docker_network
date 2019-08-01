@@ -10,7 +10,20 @@ overlay：覆蓋網絡將多個Docker守護程序連接在一起，並使群集�
 
 macvlan：Macvlan網絡允許您為容器分配MAC地址，使其顯示為網絡上的物理設備。Docker守護程序通過其MAC地址將流量路由到容器。macvlan 在處理期望直接連接到物理網絡的傳統應用程序時，使用驅動程序有時是最佳選擇，而不是通過Docker主機的網絡堆棧進行路由。
 
+
 網絡插件：您可以使用Docker安裝和使用第三方網絡插件。這些插件可從 Docker Hub 或第三方供應商處獲得。
+
+## 再進行測試前 先查看network預設有哪些
+
+```
+docker network ls 
+建立
+docker network create (name)
+刪除
+docker network rm (name)
+```
+
+![](https://github.com/a121514191/docker_network/blob/master/netwok-ls.PNG)
 
 ## 測試none
 
@@ -29,7 +42,7 @@ docker run -it --net=none joffotron/docker-net-tools
 ifconfig
 ```
 
-![](none-network)
+![](https://github.com/a121514191/docker_network/blob/master/none-network.PNG)
 
 ## 測試host
 
@@ -46,7 +59,7 @@ docker run -it --net=host joffotron/docker-net-tools
 ifconfig
 ```
 
-![](host-network)
+![](https://github.com/a121514191/docker_network/blob/master/host-network.PNG)
 
 ## 測試bridge
 
@@ -58,7 +71,7 @@ ifconfig
 
 參考網址 https://kknews.cc/other/6bm9gpl.html
 
-先看docker的ifconfig
+查詢docker的網路卡與 IP 網域等相關參數
 
 ```
 進入docker
@@ -68,7 +81,7 @@ docker-machine ssh
 ifconfig
 ```
 
-![](docker-network)
+![](https://github.com/a121514191/docker_network/blob/master/docker%20network.PNG)
 
 ```
 兩句相等(因為預設)
@@ -78,8 +91,7 @@ docker run -it  joffotron/docker-net-tools
 查看網路
 ifconfig
 ```
-
-![](bridge-network)
+![](https://github.com/a121514191/docker_network/blob/master/bridge-network.PNG)
 
 ## 測試overlay
 
